@@ -83,6 +83,10 @@ class Mysql < Formula
     elsif MacOS.version <= :ventura
       ENV["CC"] = Formula["llvm@18"].opt_bin/"clang"
       ENV["CXX"] = Formula["llvm@18"].opt_bin/"clang++"
+
+      inreplace "cmake/protobuf.cmake" do |s|
+        s.gsub! ' INCLUDE REGEX "${HOMEBREW_HOME}.*")', ' INCLUDE REGEX "libabsl.*")'
+      end
     end
 
     icu4c = deps.find { |dep| dep.name.match?(/^icu4c(@\d+)?$/) }
